@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import {
 
   DynamicControl,
- BIG_DYNAMIC_FORM_MODEL
+ DYNAMIC_FORM_MODEL
 } from './dynamic-form-model';
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class DynamicFormService {
   }
 
   getFormModel() {
-    return BIG_DYNAMIC_FORM_MODEL;
+    return DYNAMIC_FORM_MODEL;
   }
 
 }

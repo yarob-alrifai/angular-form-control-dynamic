@@ -11,7 +11,7 @@ export interface DynamicControl {
 }
 
 
-export const BIG_DYNAMIC_FORM_MODEL: DynamicControl[] = [
+export const DYNAMIC_FORM_MODEL: DynamicControl[] = [
 
   { type: 'text', name: 'firstName', label: 'First Name', defaultValue: '' },
   { type: 'text', name: 'lastName', label: 'Last Name', defaultValue: '' },
