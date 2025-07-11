@@ -22,4 +22,33 @@ export class DynamicFormService {
     return DYNAMIC_FORM_MODEL;
   }
 
+  addToForm(controls: DynamicControl[],item:DynamicControl){
+
+      const lastMatchingIndex = controls
+            .map((control, index) => (control.type === item.type ? index : -1))
+            .filter((index) => index !== -1)
+            .pop();
+          if (lastMatchingIndex !== undefined) {
+            controls.splice(lastMatchingIndex + 1, 0, item);
+          } else {
+            controls.push(item); // Append if no matching type
+          }
+
+             // this.formModel.push( item)
+  }
+
+
+    textItem: DynamicControl = {
+    type: 'text',
+    name: 'new_text',
+    label: 'New text',
+    defaultValue: '',
+  };
+  checkBoxItem: DynamicControl = {
+    type: 'checkbox',
+    name: 'new_checkbox',
+    label: 'New checkbox',
+    defaultValue: false,
+  }
+
 }

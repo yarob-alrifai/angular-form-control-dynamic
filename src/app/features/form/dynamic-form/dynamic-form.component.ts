@@ -11,61 +11,61 @@ import { DynamicFormService } from '../../../core/services/dynamic-form/dynamic-
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
-  imports: [    CommonModule,
+  imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatRadioModule,],
+    MatRadioModule,
+  ],
   templateUrl: './dynamic-form.component.html',
-  styleUrl: './dynamic-form.component.scss'
+  styleUrl: './dynamic-form.component.scss',
 })
-export class DynamicFormComponent  implements OnInit {
+export class DynamicFormComponent implements OnInit {
   form!: FormGroup;
-
   formModel!: DynamicControl[];
-  checkboxModel: any = {};
+  // checkboxModel: any = {};
 
-  #dynamicFormService = inject(DynamicFormService)
-addToModel(){
-  const item:DynamicControl =  {
-    type: 'checkbox',
-    name: 'agreeTerms',
-    label: 'Agree to Terms and Conditions',
-    defaultValue: false,
+  #dynamicFormService = inject(DynamicFormService);
+  addTextInputToModel() {
+    this.#dynamicFormService.addToForm(
+      this.formModel,
+      this.#dynamicFormService.textItem
+    );
+    this.#createForm()
   }
-    const lastMatchingIndex = this.formModel
-            .map((control, index) => (control.type === item.type ? index : -1))
-            .filter((index) => index !== -1)
-            .pop();
-          if (lastMatchingIndex !== undefined) {
-            this.formModel.splice(lastMatchingIndex + 1, 0, item);
-          } else {
-            this.formModel.push(item); // Append if no matching type
-          }
+  addCheckBoxToModel() {
+    this.#dynamicFormService.addToForm(
+      this.formModel,
+      this.#dynamicFormService.checkBoxItem
+    );
+    this.#createForm()
+  }
 
-  // this.formModel.push( item)
+  #createForm() {
     this.form = this.#dynamicFormService.createForm(this.formModel);
-}
-  ngOnInit() {
+  }
+  #getFormModel() {
     this.formModel = this.#dynamicFormService.getFormModel();
-    this.form = this.#dynamicFormService.createForm(this.formModel);
-
-    this.checkboxModel = {};
-    this.formModel.forEach((control) => {
-      if (control.type === 'checkbox-list') {
-        this.checkboxModel[control.name] = {};
-        control.options?.forEach((option) => {
-          this.checkboxModel[control.name][option] = this.form
-            .get(control.name)
-            ?.value.includes(option);
-        });
-      }
-    });
+  }
+  ngOnInit() {
+    this.#getFormModel();
+    this.#createForm();
+    // this.checkboxModel = {};
+    // this.formModel.forEach((control) => {
+    //   if (control.type === 'checkbox-list') {
+    //     this.checkboxModel[control.name] = {};
+    //     control.options?.forEach((option) => {
+    //       this.checkboxModel[control.name][option] = this.form
+    //         .get(control.name)
+    //         ?.value.includes(option);
+    //     });
+    //   }
+    // });
   }
 
   onCheckboxListChange(name: string, value: string, event: any) {
-    debugger;
     const current = this.form.get(name)?.value || [];
     if (event.target.checked) {
       this.form.get(name)?.setValue([...current, value]);
