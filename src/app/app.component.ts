@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicFormComponent } from './features/form/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'app-root',

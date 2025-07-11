@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 
@@ -6,8 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { DynamicControl } from '../dynamic-form-model';
-import { DynamicFormService } from '../dynamic-form.service';
+import { DynamicControl } from '../../../core/services/dynamic-form/dynamic-form-model';
+import { DynamicFormService } from '../../../core/services/dynamic-form/dynamic-form.service';
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
@@ -25,11 +25,12 @@ export class DynamicFormComponent  implements OnInit {
 
   formModel!: DynamicControl[];
   checkboxModel: any = {};
-  constructor(private dynamicFormService: DynamicFormService) {}
+
+  #dynamicFormService = inject(DynamicFormService)
 
   ngOnInit() {
-    this.formModel = this.dynamicFormService.getFormModel();
-    this.form = this.dynamicFormService.createForm(this.formModel);
+    this.formModel = this.#dynamicFormService.getFormModel();
+    this.form = this.#dynamicFormService.createForm(this.formModel);
 
     this.checkboxModel = {};
     this.formModel.forEach((control) => {

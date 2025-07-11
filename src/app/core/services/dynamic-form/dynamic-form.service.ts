@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
 
@@ -8,7 +8,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class DynamicFormService {
-  constructor(private fb: FormBuilder) {}
+  fb = inject(FormBuilder)
 
   createForm(controls: DynamicControl[]): FormGroup {
     const group: any = {};
@@ -18,7 +18,7 @@ export class DynamicFormService {
     return this.fb.group(group);
   }
 
-  getFormModel() {
+  getFormModel() :DynamicControl[] {
     return DYNAMIC_FORM_MODEL;
   }
 
