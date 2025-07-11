@@ -27,7 +27,26 @@ export class DynamicFormComponent  implements OnInit {
   checkboxModel: any = {};
 
   #dynamicFormService = inject(DynamicFormService)
+addToModel(){
+  const item:DynamicControl =  {
+    type: 'checkbox',
+    name: 'agreeTerms',
+    label: 'Agree to Terms and Conditions',
+    defaultValue: false,
+  }
+    const lastMatchingIndex = this.formModel
+            .map((control, index) => (control.type === item.type ? index : -1))
+            .filter((index) => index !== -1)
+            .pop();
+          if (lastMatchingIndex !== undefined) {
+            this.formModel.splice(lastMatchingIndex + 1, 0, item);
+          } else {
+            this.formModel.push(item); // Append if no matching type
+          }
 
+  // this.formModel.push( item)
+    this.form = this.#dynamicFormService.createForm(this.formModel);
+}
   ngOnInit() {
     this.formModel = this.#dynamicFormService.getFormModel();
     this.form = this.#dynamicFormService.createForm(this.formModel);
